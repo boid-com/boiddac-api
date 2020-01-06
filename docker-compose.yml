@@ -1,0 +1,36 @@
+version: '3'
+services:
+    rabbitmq:
+        image: rabbitmq:3.7.5-management
+        hostname: app-rabbitmq
+        restart: always
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - rmq-data:/var/lib/rabbitmq
+        environment:
+            RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+            RABBITMQ_DEFAULT_USER: rabbitmq
+            RABBITMQ_DEFAULT_PASS: rabbitmq
+            RABBITMQ_DEFAULT_VHOST: /
+        logging:
+          driver: "json-file"
+          options:
+              max-file: "5"
+              max-size: "10m"
+    mongo:
+      image: mongo
+      restart: always
+      ports:
+        - 27017:27017
+      volumes:
+        - mongo-data:/data/db
+      logging:
+        driver: "json-file"
+        options:
+            max-file: "5"
+            max-size: "10m"
+volumes:
+  rmq-data:
+  mongo-data:
